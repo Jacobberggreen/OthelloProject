@@ -76,7 +76,7 @@ namespace OthelloProject.Models
 			}
 		}
 
-		public UserDetails GetUserInfoByID(int userid, out string message)
+		public UserDetails GetUserInfoByID(int selectedUserID, out string message)
 		{
 			message = "";
 
@@ -85,7 +85,7 @@ namespace OthelloProject.Models
 			string sqlQuery = "SELECT * FROM [User] WHERE [UserID] = @UserID";
 			SqlCommand cmd = new SqlCommand(sqlQuery, conn);
 
-			cmd.Parameters.AddWithValue("@UserID", System.Data.SqlDbType.Int).Value = userid;
+			cmd.Parameters.AddWithValue("@UserID", selectedUserID);
 			UserDetails ud = new UserDetails();
 
 			try
@@ -207,6 +207,40 @@ namespace OthelloProject.Models
 				return rowsAffected;
 			}
 			catch (Exception ex)
+			{
+				message = ex.Message;
+				return 0;
+			}
+			finally
+			{
+				conn.Close();
+			}
+		}
+
+		public int DeleteUser (int selectedUserID, out string message)
+		{
+			message = "";
+
+			SqlConnection conn = Connect();
+
+			string sqlQuery = "DELETE FROM [User] WHERE [UserID] = @UserID";
+			SqlCommand cmd = new SqlCommand(sqlQuery, conn);
+
+			cmd.Parameters.AddWithValue("@UserID", selectedUserID);
+
+			try
+			{
+				conn.Open();
+				int rowsAffected = cmd.ExecuteNonQuery();
+
+				if(rowsAffected != 1)
+				{
+					message = "An error occurred while removing user";
+					return 0;
+				}
+				return rowsAffected;
+			}
+			catch(Exception ex)
 			{
 				message = ex.Message;
 				return 0;

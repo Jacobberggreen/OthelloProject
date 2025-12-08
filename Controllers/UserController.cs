@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using OthelloProject.Models.Methods;
 using OthelloProject.Models;
+
 
 namespace OthelloProject.Controllers
 {
@@ -12,7 +14,7 @@ namespace OthelloProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult RegisterUser(UserDetail userDetail){
+        public IActionResult RegisterUser(UserDetails userDetail){
             
             UserMethods userMethods = new UserMethods();
 
@@ -40,8 +42,7 @@ namespace OthelloProject.Controllers
         [HttpGet]
         public IActionResult SelectUser(){
 
-            UserDetail userDetail = new UserDetail();   
-            userDetail.Users = userMethods.GetUsers();
+            UserDetails userDetail = new UserDetails();   
             return View("SelectUser", userDetail);  
         }
     }

@@ -54,6 +54,45 @@ namespace OthelloProject.Models
 				conn.Close();
 			}
 		}
-		
+
+		public GameDetails GetGameInfoByID(int selectedGameID, out string message)
+		{
+			message = "";
+
+			SqlConnection conn = Connect();
+
+			string sqlQuery = "SELECT * FROM [Game] WHERE [GameID] = @GameID";
+			SqlCommand cmd = new SqlCommand(sqlQuery, conn);
+
+			cmd.Parameters.AddWithValue("@GameID", selectedGameID);
+			GameDetails gd = new GameDetails();
+
+			try
+			{
+				conn.Open();
+				SqlDataReader reader = cmd.ExecuteReader();
+
+				while (reader.Read())
+				{
+					gd.GameID = (int)reader["GameID"];
+					gd.User1ID = (int)reader["User1ID"];
+					gd.User2ID = (int)reader["User2ID"];
+					gd.GameStatus = reader["GameStatus"].ToString();
+					gd.Board = reader["Board"].ToString();
+					gd.WinnerID = (int)reader["WinnderID"];
+				}
+				return gd;
+			}
+			catch(SqlException ex)
+			{
+				message = ex.Message;
+				return null;
+			}
+			finally
+			{
+				conn.Close();
+			}
+		}
+
 	}
 }

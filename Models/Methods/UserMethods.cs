@@ -1,8 +1,5 @@
-using Microsoft.Extensions.Configuration;
-using System.IO;
 using Microsoft.Data.SqlClient;
 using Microsoft.AspNetCore.Identity;
-using System.Runtime.CompilerServices;
 using OthelloProject.Models.Methods;
 
 namespace OthelloProject.Models

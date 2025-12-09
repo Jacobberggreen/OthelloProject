@@ -1,77 +1,82 @@
 using Microsoft.AspNetCore.Mvc;
 using OthelloProject.Models.Methods;
 using OthelloProject.Models;
+using Microsoft.AspNetCore.Identity;
 
 
 namespace OthelloProject.Controllers
 {
-    public class UserController : Controller
-    {
-        [HttpGet]
-        public IActionResult RegisterUser()
-        {
-            return View("Register");
-        }
+	public class UserController : Controller
+	{
+		[HttpGet]
+		public IActionResult RegisterUser()
+		{
+			return View("Register");
+		}
 
-        [HttpPost]
-        public IActionResult RegisterUser(UserDetails userDetail){
-            
-            UserMethods userMethods = new UserMethods();
+		[HttpPost]
+		public IActionResult RegisterUser(UserDetails userDetail)
+		{
 
-            int i = userMethods.InsertUser(userDetail, out string message);
+			UserMethods userMethods = new UserMethods();
 
-            switch(i)
-            {
-                case -2:
-                    ViewBag.Message = "Email is already in use!";
-                    break;
-                case -1:
-                    ViewBag.Message = "User already exists.";
-                    break;
-                case 1:
-                    ViewBag.Message = "Registrition succesful .";
-                    break;
-                default:
-                    ViewBag.Message = "Unexpected error.";
-                    break;
-            }
-            
-            return View("Register");
-        }
+			int i = userMethods.InsertUser(userDetail, out string message);
 
-        [HttpGet]
-        public IActionResult Login(){
+			switch (i)
+			{
+				case -2:
+					ViewBag.Message = "Email is already in use!";
+					break;
+				case -1:
+					ViewBag.Message = "User already exists.";
+					break;
+				case 1:
+					ViewBag.Message = "Registrition succesful .";
+					break;
+				default:
+					ViewBag.Message = "Unexpected error.";
+					break;
+			}
 
-            return View("LoginPage");  
-        }
+			return View("Register");
+		}
 
-        [HttpPost]
-        public IActionResult Login(string username, string password){
-            UserMethods userMethods = new UserMethods();
-            var userList = userMethods.GetAllUsers();
+		[HttpGet]
+		public IActionResult Login()
+		{
+			return View("LoginPage");
+		}
 
-            var user = new UserDetails()
-            {
-                Username = username,
-                Password = password
-            };
-            
-           var loginUser = userList.FirstOrDefault(u => u.Username.Equals(user.Username, StringComparison.OrdinalIgnoreCase)
-           && u.Password == user.Password);
+		[HttpPost]
+		public IActionResult Login(UserDetails ud)
+		{
+			var uMethod = new UserMethods();
+			var retrievedUser = uMethod.VerifyLogin(ud.Username!, out string errormsg);
 
-            if (loginUser != null)
-            {
+			if (retrievedUser != null)
+			{
+				var passwordHasher = new PasswordHasher<UserDetails>();
+				var verificationResult = passwordHasher.VerifyHashedPassword(retrievedUser, retrievedUser.Password!, ud.Password);
 
-                HttpContext.Session.SetString("UserName", loginUser.Name);
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                ViewBag.Error = "Invalid email or password.";
-                return View("LoginPage", user);
-            }
-
-
-        }
-    }
+				if (verificationResult == PasswordVerificationResult.Success)
+				{
+					// Inloggning lyckades
+					HttpContext.Session.SetInt32("UserID", retrievedUser.UserID);
+					return RedirectToAction("User", "Register");
+				}
+				else
+				{
+					// Fel lösenord
+					ViewBag.ErrorMessage = "Felaktigt användarnamn eller lösenord.";
+					return View("LoginPage");
+				}
+			}
+			else
+			{
+				// Användaren hittades inte
+				ViewBag.ErrorMessage = "Användaren hittades inte.";
+				return View("LoginPage");
+			}
+		}
+	}
 }

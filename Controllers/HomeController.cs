@@ -14,20 +14,6 @@ public class HomeController : Controller
 	{
 		_logger = logger;
 	}
-	[HttpGet]
-	public IActionResult Index()
-	{
-		string message;
-		List<GameDetails> availableGames = new GameMethods().GetAllGames(out message);
-
-		if (availableGames == null || !availableGames.Any())
-		{
-			ViewBag.NoGames = "There are no games available";
-			return View();
-		}
-
-		return View(availableGames);
-	}
 
 	public IActionResult Privacy()
 	{

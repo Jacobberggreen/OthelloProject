@@ -40,10 +40,38 @@ namespace OthelloProject.Controllers
         }
 
         [HttpGet]
-        public IActionResult SelectUser(){
+        public IActionResult Login(){
 
-            UserDetails userDetail = new UserDetails();   
-            return View("SelectUser", userDetail);  
+            return View("LoginPage");  
+        }
+
+        [HttpPost]
+        public IActionResult Login(string username, string password){
+            UserMethods userMethods = new UserMethods();
+            var userList = userMethods.GetAllUsers();
+
+            var user = new UserDetails()
+            {
+                Username = username,
+                Password = password
+            };
+            
+           var loginUser = userList.FirstOrDefault(u => u.Username.Equals(user.Username, StringComparison.OrdinalIgnoreCase)
+           && u.Password == user.Password);
+
+            if (loginUser != null)
+            {
+
+                HttpContext.Session.SetString("UserName", loginUser.Name);
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ViewBag.Error = "Invalid email or password.";
+                return View("LoginPage", user);
+            }
+
+
         }
     }
 }

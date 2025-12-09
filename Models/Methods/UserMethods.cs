@@ -109,6 +109,43 @@ namespace OthelloProject.Models
 			}
 		}
 
+		public UserDetails VerifyLogin(string username, out string message)
+		{
+			message = "";
+
+			SqlConnection conn = Connect();
+
+			string sqlQuery = "SELECT * FROM [User] WHERE [Username] = @Username";
+			SqlCommand cmd = new SqlCommand(sqlQuery, conn);
+
+			cmd.Parameters.AddWithValue("@Username", username);
+			UserDetails ud = new UserDetails();
+
+			try
+			{
+				conn.Open();
+				SqlDataReader reader = cmd.ExecuteReader();
+
+				while (reader.Read())
+				{
+					ud.Username = reader["Username"].ToString();
+					ud.Password = reader["Password"].ToString();
+					ud.UserID = (int)reader["UserID"];
+				}
+
+				return ud;
+			}
+			catch (SqlException ex)
+			{
+				message = ex.Message;
+				return null;
+			}
+			finally
+			{
+				conn.Close();
+			}
+		}
+
 		public List<UserDetails> GetAllUsers(out string message)
 		{
 			message = "";

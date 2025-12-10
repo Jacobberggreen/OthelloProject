@@ -1,0 +1,62 @@
+@model string
+@{
+    ViewData["Title"] = "Othello Board";
+
+    // Make sure we always have 64 characters to work with
+    var board = (Model ?? string.Empty).PadRight(64, 'E');
+}
+
+<div class="othello-wrapper">
+    <h2>Othello</h2>
+    <p class="othello-status">
+        <!-- Your friend can fill this with real status later -->
+        Current board state (visual only – logic handled in controller).
+    </p>
+
+    <!-- Form posts which position the user clicked -->
+    <form method="post" class="othello-board-form">
+        <div class="othello-board">
+            @for (int row = 0; row < 8; row++)
+            {
+                for (int col = 0; col < 8; col++)
+                {
+                    var index = row * 8 + col;
+                    var cell = board[index];
+
+                    <div class="othello-cell">
+                        @if (cell == 'E')
+                        {
+                            <!-- Empty cell = clickable button -->
+                            <button
+                                type="submit"
+                                name="position"
+                                value="@index"
+                                class="othello-cell-button">
+                            </button>
+                        }
+                        else if (cell == 'W')
+                        {
+                            <!-- White piece -->
+                            <div class="othello-piece white"></div>
+                        }
+                        else if (cell == 'B')
+                        {
+                            <!-- Black piece -->
+                            <div class="othello-piece black"></div>
+                        }
+                        else
+                        {
+                            <!-- Fallback: treat unknown as empty -->
+                            <button
+                                type="submit"
+                                name="position"
+                                value="@index"
+                                class="othello-cell-button">
+                            </button>
+                        }
+                    </div>
+                }
+            }
+        </div>
+    </form>
+</div>

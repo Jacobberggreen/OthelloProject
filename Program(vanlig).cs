@@ -9,6 +9,7 @@ builder.Services.AddSession(options =>
 {
 	options.IdleTimeout = TimeSpan.FromMinutes(30);
 	options.Cookie.HttpOnly = true;
+	options.Cookie.IsEssential = true; // krävs för att session-cookien alltid ska sparas
 });
 
 var app = builder.Build();
@@ -26,6 +27,36 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseSession();
+
+// Tvinga inloggning på alla sidor utom login/registrering och statiska filer
+app.Use(async (context, next) =>
+{
+	var path = context.Request.Path;
+	var isAuthenticated = context.Session.GetInt32("UserID") != null;
+	var endpoint = context.GetEndpoint();
+
+	// Tillåt uttryckliga [AllowAnonymous]-endpoints och statiska filer (endpoint == null efter UseStaticFiles)
+	var allowAnonymous = endpoint?.Metadata.GetMetadata<Microsoft.AspNetCore.Authorization.IAllowAnonymous>();
+	var isPublicPath =
+		path.HasValue &&
+		(
+			path.StartsWithSegments("/user/login", StringComparison.OrdinalIgnoreCase) ||
+			path.StartsWithSegments("/user/registeruser", StringComparison.OrdinalIgnoreCase) ||
+			path.StartsWithSegments("/lib", StringComparison.OrdinalIgnoreCase) ||
+			path.StartsWithSegments("/css", StringComparison.OrdinalIgnoreCase) ||
+			path.StartsWithSegments("/js", StringComparison.OrdinalIgnoreCase) ||
+			path.StartsWithSegments("/images", StringComparison.OrdinalIgnoreCase) ||
+			path.StartsWithSegments("/othelloproject.styles.css", StringComparison.OrdinalIgnoreCase)
+		);
+
+	if (!isAuthenticated && allowAnonymous is null && !isPublicPath)
+	{
+		context.Response.Redirect("/User/Login");
+		return;
+	}
+
+	await next();
+});
 
 app.UseAuthorization();
 

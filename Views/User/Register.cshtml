@@ -12,30 +12,30 @@
 <div class="row justify-content-center">
 	<div class="col-md-6">
 
-		<div class="text-center mb-4">
-            <h1 class="display-5 mb-3">Register</h1>
+        <div class="text-center mb-4">
+            <h1 class="display-5">Register</h1>
             <p class="lead">Enter your information to register a new account.</p>
         </div>
 
-		<form asp-action="RegisterUser" method="post" class="card p-4 shadow-sm">
-			<div class="mb-3">
-				<label class="form-label" for="Username">Username</label>
-				<input class="form-control" id="Username" name="Username" required />
+		<form asp-action="RegisterUser" method="post" class="othello-form">
+			<div class="othello-form-group">
+				<label class="othello-label" for="Username">Username</label>
+				<input class="othello-input" id="Username" name="Username" required />
 			</div>
 
-			<div class="mb-3">
-				<label class="form-label" for="Email">E-mail</label>
-				<input class="form-control" type="email" id="Email" name="Email" required />
+			<div class="othello-form-group">
+				<label class="othello-label" for="Email">E-mail</label>
+				<input class="othello-input" type="email" id="Email" name="Email" required />
 			</div>
 
-			<div class="mb-3">
-				<label class="form-label" for="Password">Passowrd</label>
-				<input class="form-control" type="password" id="Password" name="Password" required />
+			<div class="othello-form-group">
+				<label class="othello-label" for="Password">Passowrd</label>
+				<input class="othello-input" type="password" id="Password" name="Password" required />
 			</div>
 
 			<div class="d-flex gap-2">
-				<button type="submit" class="btn btn-primary">Register</button>
-				<a class="btn btn-outline-secondary" asp-controller="User" asp-action="Login">Go back</a>
+				<button type="submit" class="othello-btn">Register</button>
+				<a class="othello-btn-back" asp-controller="User" asp-action="Login">Go back</a>
 			</div>
 		</form>
 	</div>

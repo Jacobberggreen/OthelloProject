@@ -3,15 +3,15 @@
 @using System.Diagnostics.Eventing.Reader
 @model GameDetails
 
-<form asp-controller="Games" asp-action="AddGame" method="post" class="card p-4 shadow-sm">
-	<div class="mb-3">
-		<label class="form-label" asp-for="GameName">Enter name for the game: </label>
-		<input class="form-control" required asp-for="GameName" />
+<form asp-controller="Games" asp-action="AddGame" method="post" class="othello-form">
+	<div class="othello-form-group">
+		<label class="othello-label" asp-for="GameName">Enter name for the game: </label>
+		<input class="othello-input" required asp-for="GameName" />
 	</div>
-		<input type="hidden" asp-for="GameStatus" value="Waiting"/>
-		<input type="hidden" asp-for="User1ID" value="@ViewBag.User1ID"/>
-		<input type="hidden" asp-for="Board" value="***"/>
+	<input type="hidden" asp-for="GameStatus" value="Waiting"/>
+	<input type="hidden" asp-for="User1ID" value="@ViewBag.User1ID"/>
+	<input type="hidden" asp-for="Board" value="***"/>
 	<div class="d-flex gap-2">
-		<button type="submit" class="btn btn-primary">Add game</button>
+		<button type="submit" class="othello-btn">Add game</button>
 	</div>
 </form>

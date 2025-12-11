@@ -15,6 +15,10 @@
 }
 else
 {
+	<form method="get" asp-action="Games" asp-controller="Games">
+		<input type="text" name="search" placeholder="Search by game name" name="search" />
+		<button type="submit" value="search" class="btn btn-primary">Search</button>
+	</form>
 	<table class="table">
 		<tr>
 			<th>Player</th>

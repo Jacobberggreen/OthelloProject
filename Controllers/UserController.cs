@@ -2,18 +2,21 @@ using Microsoft.AspNetCore.Mvc;
 using OthelloProject.Models.Methods;
 using OthelloProject.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace OthelloProject.Controllers
 {
 	public class UserController : Controller
 	{
+		[AllowAnonymous]
 		[HttpGet]
 		public IActionResult RegisterUser()
 		{
 			return View("Register");
 		}
 
+		[AllowAnonymous]
 		[HttpPost]
 		public IActionResult RegisterUser(UserDetails userDetail)
 		{
@@ -41,12 +44,14 @@ namespace OthelloProject.Controllers
 			return View("Register");
 		}
 
+		[AllowAnonymous]
 		[HttpGet]
 		public IActionResult Login()
 		{
 			return View("LoginPage");
 		}
 
+		[AllowAnonymous]
 		[HttpPost]
 		public IActionResult Login(UserDetails ud)
 		{

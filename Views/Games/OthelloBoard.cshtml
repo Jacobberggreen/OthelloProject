@@ -6,62 +6,71 @@
     var board = (Model ?? string.Empty).PadRight(64, 'E');
     string player2Name = ViewBag.User2Name ?? "Waiting for Player 2";
 }
+<style>
+    body { overflow: hidden; }
+    .app-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 10;
+    }
+</style>
 
-<div class="othello-wrapper">
-    <h2>Othello</h2>
-    <p class="othello-status">
-        <!-- Your friend can fill this with real status later -->
-        Current board state (visual only – logic handled in controller).
-    </p>
-
-    <p>Player 1: @ViewBag.User1Name </p>
-    <p>Player 2: @player2Name </p>
-
-
-    <!-- Form posts which position the user clicked -->
-    <form method="post" class="othello-board-form">
-        <div class="othello-board">
-            @for (int row = 0; row < 8; row++)
-            {
-                for (int col = 0; col < 8; col++)
-                {
-                    var index = row * 8 + col;
-                    var cell = board[index];
-
-                    <div class="othello-cell">
-                        @if (cell == 'E')
-                        {
-                            <!-- Empty cell = clickable button -->
-                            <button
-                                type="submit"
-                                name="position"
-                                value="@index"
-                                class="othello-cell-button">
-                            </button>
-                        }
-                        else if (cell == 'W')
-                        {
-                            <!-- White piece -->
-                            <div class="othello-piece white"></div>
-                        }
-                        else if (cell == 'B')
-                        {
-                            <!-- Black piece -->
-                            <div class="othello-piece black"></div>
-                        }
-                        else
-                        {
-                            <!-- Fallback: treat unknown as empty -->
-                            <button
-                                type="submit"
-                                name="position"
-                                value="@index"
-                                class="othello-cell-button">
-                            </button>
-                        }
-                    </div>
-                }
-            }
+<div class="othello-form othello-board-card">
+    <div class="othello-wrapper board-wrapper">
+        <div class="board-players">
+            <p class="mb-0 othello-player-label">Player 1: @ViewBag.User1Name</p>
+            <p class="mb-0 othello-player-label">Player 2: @player2Name</p>
         </div>
-    </form>
+
+        <!-- Form posts which position the user clicked -->
+        <form method="post" class="othello-board-form d-flex justify-content-center">
+            <div class="othello-board">
+                @for (int row = 0; row < 8; row++)
+                {
+                    for (int col = 0; col < 8; col++)
+                    {
+                        var index = row * 8 + col;
+                        var cell = board[index];
+
+                        <div class="othello-cell">
+                            @if (cell == 'E')
+                            {
+                                <!-- Empty cell = clickable button -->
+                                <button
+                                    type="submit"
+                                    name="position"
+                                    value="@index"
+                                    class="othello-cell-button">
+                                </button>
+                            }
+                            else if (cell == 'W')
+                            {
+                                <!-- White piece -->
+                                <div class="othello-piece white"></div>
+                            }
+                            else if (cell == 'B')
+                            {
+                                <!-- Black piece -->
+                                <div class="othello-piece black"></div>
+                            }
+                            else
+                            {
+                                <!-- Fallback: treat unknown as empty -->
+                                <button
+                                    type="submit"
+                                    name="position"
+                                    value="@index"
+                                    class="othello-cell-button">
+                                </button>
+                            }
+                        </div>
+                    }
+                }
+            </div>
+        </form>
+    </div>
 </div>
+
+<a class="othello-leave-btn" href="#">Leave Game</a>

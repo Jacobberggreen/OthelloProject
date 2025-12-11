@@ -27,7 +27,7 @@ namespace OthelloProject
 				ViewBag.Sorted = sorted;
 			}
 
-			if(!string.IsNullOrEmpty(search) && availableGames.Any(ag => ag.GameName.Contains(search, StringComparison.OrdinalIgnoreCase)))
+			if (!string.IsNullOrEmpty(search) && availableGames.Any(ag => ag.GameName.Contains(search, StringComparison.OrdinalIgnoreCase)))
 			{
 				availableGames = availableGames.Where(ag => ag.GameName.Contains(search, StringComparison.OrdinalIgnoreCase)).ToList();
 			}
@@ -47,17 +47,26 @@ namespace OthelloProject
 		public IActionResult AddGame(GameDetails newGame)
 		{
 			string message;
-			int result = new GameMethods().InsertGame(newGame, out message);
 
-			if (result == 1)
-			{
-				HttpContext.Session.SetString("GameName", newGame.GameName);
-				return RedirectToAction("OthelloBoard");
-			}
-			else
+			if (new GameMethods().GetGameByName(newGame.GameName, out string message2) != null)
 			{
 				return View();
 			}
+			else
+			{
+				int result = new GameMethods().InsertGame(newGame, out message);
+
+				if (result == 1)
+				{
+					HttpContext.Session.SetString("GameName", newGame.GameName);
+					return RedirectToAction("OthelloBoard");
+				}
+				else
+				{
+					return View();
+				}
+			}
+
 		}
 
 		public IActionResult OthelloBoard()
@@ -69,7 +78,8 @@ namespace OthelloProject
 			var user1Name = userMethods.GetUserInfoByID(initiatedGame.User1ID, out string msg1);
 			var user2Name = userMethods.GetUserInfoByID(initiatedGame.User2ID, out string msg2);
 			ViewBag.User1Name = user1Name.Username;
-			if (user2Name != null){
+			if (user2Name != null)
+			{
 				ViewBag.User2Name = user2Name.Username;
 			}
 
@@ -87,11 +97,12 @@ namespace OthelloProject
 			int currentStatus = gm.UpdateGameStatus(gd.GameID, out string message2);
 			int updateUser2 = gm.UpdateUser2ID(gd, out string msg);
 
-			if(currentStatus == 1 && updateUser2 == 1)
+			if (currentStatus == 1 && updateUser2 == 1)
 			{
 				return RedirectToAction("OthelloBoard");
 			}
-			else{
+			else
+			{
 				return View();
 			}
 

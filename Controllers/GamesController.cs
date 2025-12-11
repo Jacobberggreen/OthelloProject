@@ -10,7 +10,7 @@ namespace OthelloProject
 	public class GamesController : Controller
 	{
 		[HttpGet]
-		public IActionResult Games()
+		public IActionResult Games(bool sorted)
 		{
 			string message;
 			List<GameDetails> availableGames = new GameMethods().GetAllGames(out message);
@@ -19,6 +19,11 @@ namespace OthelloProject
 			{
 				ViewBag.NoGames = "There are no games available";
 				return View();
+			}
+
+			if (sorted)
+			{
+				availableGames = availableGames.OrderByDescending(ag => ag.GameStatus).ToList();
 			}
 
 

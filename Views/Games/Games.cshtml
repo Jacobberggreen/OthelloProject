@@ -19,7 +19,7 @@ else
 		<tr>
 			<th>Player</th>
 			<th>Status</th>
-			<th>Join button</th>
+			<th><a asp-controller="Games" asp-action="Games" asp-route-sorted="true">Join button</a></th>
 		</tr>
 
 
@@ -29,10 +29,13 @@ else
 				<td>@availableGames.GameName</td>
 				<td>@availableGames.GameStatus</td>
 				<td>
-					@if(availableGames.GameStatus == "Waiting"){
-							<a type="submit" class="btn btn-primary" asp-controller="Games" asp-action="JoinGame" asp-route-GameID="@availableGames.GameID">Join game</a>
+					@if (availableGames.GameStatus == "Waiting")
+					{
+						<a type="submit" class="btn btn-primary" asp-controller="Games" asp-action="JoinGame"
+							asp-route-GameID="@availableGames.GameID">Join game</a>
 					}
-					else{
+					else
+					{
 						<span>Game in progress</span>
 					}
 				</td>

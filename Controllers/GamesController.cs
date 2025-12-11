@@ -10,7 +10,7 @@ namespace OthelloProject
 	public class GamesController : Controller
 	{
 		[HttpGet]
-		public IActionResult Games()
+		public IActionResult Games(bool sorted, string search)
 		{
 			string message;
 			List<GameDetails> availableGames = new GameMethods().GetAllGames(out message);
@@ -21,6 +21,16 @@ namespace OthelloProject
 				return View();
 			}
 
+			if (sorted)
+			{
+				availableGames = availableGames.OrderByDescending(ag => ag.GameStatus).ToList();
+				ViewBag.Sorted = sorted;
+			}
+
+			if(!string.IsNullOrEmpty(search) && availableGames.Any(ag => ag.GameName.Contains(search, StringComparison.OrdinalIgnoreCase)))
+			{
+				availableGames = availableGames.Where(ag => ag.GameName.Contains(search, StringComparison.OrdinalIgnoreCase)).ToList();
+			}
 
 			return View(availableGames);
 		}

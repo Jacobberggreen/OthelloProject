@@ -113,13 +113,20 @@ namespace OthelloProject
 
 		}
 
-		public IActionResult GameList()
+		public IActionResult GameList(bool sorted)
 		{
 			List<GameDetails> availableGames = new GameMethods().GetAllGames(out string message);
-			return PartialView("GameList",availableGames);
+
+			if (sorted)
+			{
+				availableGames = availableGames.OrderByDescending(ag => ag.GameStatus).ToList();
+				ViewBag.Sorted = sorted;
+			}
+
+			return PartialView("GameList", availableGames);
 
 		}
-		
+
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public IActionResult LeaveGame()

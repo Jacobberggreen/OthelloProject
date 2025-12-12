@@ -222,6 +222,14 @@ footer {
         0 0 0 3px rgba(45, 204, 133, 0.24);
 }
 
+.login-border {
+    border-style: solid;
+    border-width: 63px 67px 73px 71px;
+    border-image: url("/images/border.png") 63 67 73 71 fill / 63px 67px 73px 71px;
+    padding: 63px 67px 73px 71px;
+    background: rgba(18, 22, 28, 0.78);
+}
+
 .othello-table {
     width: 100%;
     border-collapse: collapse;

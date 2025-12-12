@@ -86,8 +86,10 @@ namespace OthelloProject
 				ViewBag.User2Name = user2Name.Username;
 			}
 
-			string initialState = "EEEEEEEEEEEEEEEEEEEEEEEEEEEBWEEEEEEWBEEEEEEEEEEEEEEEEEEEEEEEEEEE";
-			return View(model: initialState);
+			string boardString = initiatedGame?.Board ?? "EEEEEEEEEEEEEEEEEEEEEEEEEEEBWEEEEEEWBEEEEEEEEEEEEEEEEEEEEEEEEEEE";
+			int[,] boardArray = ConvertBoardStringToArray(boardString);
+
+			return View(model: boardArray);
 		}
 
 		public IActionResult JoinGame(GameDetails gd)
@@ -130,6 +132,31 @@ namespace OthelloProject
 
 			HttpContext.Session.Remove("GameName");
 			return RedirectToAction("Games");
+		}
+
+		private static int[,] ConvertBoardStringToArray(string board)
+		{
+			// Expecting 64 chars: E (empty), B (black), W (white)
+			var normalized = (board ?? string.Empty).Trim();
+			if (normalized.Length != 64)
+			{
+				normalized = "EEEEEEEEEEEEEEEEEEEEEEEEEEEBWEEEEEEWBEEEEEEEEEEEEEEEEEEEEEEEEEEE";
+			}
+
+			int[,] result = new int[8, 8];
+			for (int i = 0; i < 64; i++)
+			{
+				int r = i / 8;
+				int c = i % 8;
+				result[r, c] = normalized[i] switch
+				{
+					'B' or 'b' => 1,
+					'W' or 'w' => 2,
+					_ => 0
+				};
+			}
+
+			return result;
 		}
 	}
 

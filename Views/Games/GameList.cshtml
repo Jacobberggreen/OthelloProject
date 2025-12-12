@@ -1,0 +1,34 @@
+@using OthelloProject.Models.Methods
+@model List<GameDetails>
+
+<table class="othello-table mb-3">
+            <tr>
+                <th class="othello-label text-center">Game</th>
+                <th class="othello-label text-center">Status</th>
+                <th class="othello-label text-center" style="white-space: nowrap;">Join</th>
+            </tr>
+
+            @foreach (GameDetails availableGames in Model)
+            {
+                <tr>
+                    <td class="text-center">@availableGames.GameName</td>
+                    <td class="text-center">@availableGames.GameStatus</td>
+                    <td class="text-center" style="white-space: nowrap;">
+                        @if (availableGames.GameStatus == "Waiting")
+                        {
+                            <a type="submit"
+                               class="othello-nav-link"
+                               asp-controller="Games"
+                               asp-action="JoinGame"
+                               asp-route-GameID="@availableGames.GameID">
+                                Join game
+                            </a>
+                        }
+                        else
+                        {
+                            <span>Game in progress</span>
+                        }
+                    </td>
+                </tr>
+            }
+</table>

@@ -67,5 +67,10 @@
     }
 </div>
 @section Scripts {
+    <script>
+        // Razor skriver ut värdet direkt till JS
+        const sorted = @((ViewBag.Sorted ?? false).ToString().ToLower());
+    </script>
     <script src="~/js/gameList.js"></script>
 }
+

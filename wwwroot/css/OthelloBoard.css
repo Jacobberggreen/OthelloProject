@@ -86,11 +86,11 @@
     border-radius: 14px;
     font-weight: 700;
     letter-spacing: 0.02em;
-    color: #0c7a3f;
+    color: #e7f6ef;
     font-size: 1rem;
-    background: linear-gradient(135deg, #f4fff8 0%, #dff7e8 100%);
-    border: 1px solid rgba(12, 122, 63, 0.15);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    background: rgba(15, 18, 22, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.35);
 }
 
 .othello-leave-btn {

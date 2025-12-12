@@ -2,8 +2,19 @@
 @{
     ViewData["Title"] = "Othello Board";
 
-    // Make sure we always have 64 characters to work with
-    var board = (Model ?? string.Empty).PadRight(64, 'E');
+    // 0 = empty, 1 = black, 2 = white
+    int[,] board = new int[8, 8]
+    {
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 1, 2, 0, 0, 0 },
+        { 0, 0, 0, 2, 1, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 }
+    };
+
     string player2Name = ViewBag.User2Name ?? "Waiting for Player 2";
 }
 <style>
@@ -32,10 +43,10 @@
                     for (int col = 0; col < 8; col++)
                     {
                         var index = row * 8 + col;
-                        var cell = board[index];
+                        var cell = board[row, col];
 
                         <div class="othello-cell">
-                            @if (cell == 'E')
+                            @if (cell == 0)
                             {
                                 <!-- Empty cell = clickable button -->
                                 <button
@@ -45,12 +56,12 @@
                                     class="othello-cell-button">
                                 </button>
                             }
-                            else if (cell == 'W')
+                            else if (cell == 2)
                             {
                                 <!-- White piece -->
                                 <div class="othello-piece white"></div>
                             }
-                            else if (cell == 'B')
+                            else if (cell == 1)
                             {
                                 <!-- Black piece -->
                                 <div class="othello-piece black"></div>

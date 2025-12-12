@@ -1,19 +1,9 @@
-@model string
+@model int[,]
 @{
     ViewData["Title"] = "Othello Board";
 
-    // 0 = empty, 1 = black, 2 = white
-    int[,] board = new int[8, 8]
-    {
-        { 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 1, 2, 0, 0, 0 },
-        { 0, 0, 0, 2, 1, 0, 0, 0 },
-        { 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 0, 0, 0, 0 }
-    };
+    // 0 = tom, 1 = svart, 2 = vit
+    var board = Model ?? new int[8, 8];
 
     string player2Name = ViewBag.User2Name ?? "Waiting for Player 2";
 }

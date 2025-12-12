@@ -96,6 +96,12 @@ namespace OthelloProject
 			}
 
 		}
+
+		public IActionResult GameList()
+		{
+			List<GameDetails> availableGames = new GameMethods().GetAllGames(out string message);
+			return PartialView("GameList",availableGames);
+		}
 	}
 
 }

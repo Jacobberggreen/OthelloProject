@@ -162,7 +162,6 @@ footer {
         0 4px 8px rgba(0,0,0,0.2);
 }
 
-/* Form-wrapper */
 .othello-form {
     max-width: 360px;
     width: 100%;
@@ -176,7 +175,6 @@ footer {
         0 2px 4px rgba(0,0,0,0.05);
 }
 
-/* Varje fält */
 .othello-form-group {
     display: flex;
     flex-direction: column;
@@ -184,7 +182,6 @@ footer {
     margin-bottom: 0.9rem;
 }
 
-/* Label-text */
 .othello-label {
     font-size: 0.85rem;
     font-weight: 600;
@@ -232,7 +229,6 @@ footer {
         0 0 0 3px rgba(19, 143, 82, 0.18);
 }
 
-/* Tabeller i Othello-stil */
 .othello-table {
     width: 100%;
     border-collapse: collapse;
@@ -289,7 +285,6 @@ footer {
         0 4px 8px rgba(0, 0, 0, 0.25);
 }
 
-/* Navbar-länkar med gradient-hover */
 .othello-nav-link {
     position: relative;
     font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
@@ -316,16 +311,14 @@ footer {
     transform: translateY(-1px);
 }
 
-/* Navbar bakgrund/ram för kontrast */
 .app-navbar {
     background: #ffffff;
     border: 1px solid rgba(0, 0, 0, 0.08);
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
     border-radius: 0;
-    padding: 0.35rem 1.5rem; /* extra horisontell luft runt länkarna */
+    padding: 0.35rem 1.5rem;
 }
 
-/* Footer styling */
 .app-footer {
     background: transparent;
     color: #ffffff;

@@ -26,7 +26,6 @@
     justify-content: center;
 }
 
-/* Empty clickable tile */
 .othello-cell-button {
     width: 100%;
     height: 100%;
@@ -41,7 +40,6 @@
     background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
 }
 
-/* Pieces */
 .othello-piece {
     width: 70%;
     height: 70%;
@@ -57,7 +55,7 @@
     background: radial-gradient(circle at 30% 30%, #555555 0%, #111111 40%, #000000 100%);
 }
 
-/* Othello board page tweaks */
+
 .othello-board-card {
     max-width: 600px;
     padding: 0.5rem 1.5rem 3rem;

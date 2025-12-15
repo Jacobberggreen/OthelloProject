@@ -62,6 +62,7 @@ namespace OthelloProject
 				if (result == 1)
 				{
 					HttpContext.Session.SetString("GameName", newGame.GameName);
+					HttpContext.Session.SetInt32("CurrentPlayer", 1);
 					return RedirectToAction("OthelloBoard");
 				}
 				else
@@ -86,6 +87,12 @@ namespace OthelloProject
 				ViewBag.User2Name = user2Name.Username;
 			}
 
+			int currentPlayer = new GameMethods().GetCurrentPlayer(initiatedGame, out string msg3);
+			if( currentPlayer == HttpContext.Session.GetInt32("CurrentPlayer"))
+			{				
+				ViewBag.CurrentPlayer = currentPlayer;
+			}
+
 			var cm = new ConverterMethods();
 			string boardString = initiatedGame.Board;
 			int[,] boardArray = cm.ConvertBoardStringToArray(boardString);
@@ -105,6 +112,7 @@ namespace OthelloProject
 
 			if (currentStatus == 1 && updateUser2 == 1)
 			{
+				HttpContext.Session.SetInt32("CurrentPlayer", 2);
 				return RedirectToAction("OthelloBoard");
 			}
 			else
@@ -143,7 +151,7 @@ namespace OthelloProject
 		}
 
 		[HttpPost]
-		public IActionResult makeMove(int row, int col)
+		public IActionResult makeMove(int row, int col, int currentplayer)
 		{
 			GameMethods gm = new GameMethods();
 			GameDetails gd = new GameDetails();
@@ -153,9 +161,19 @@ namespace OthelloProject
 			gd = gm.GetGameByName(currentGame, out string message1);
 
 			string currentBoard = gm.GetBoard(gd, out string message2);
+			int[,] newBoard = new ConverterMethods().ConvertBoardStringToArray(currentBoard);
 
-			Console.WriteLine("Row: " + row);
-			Console.WriteLine("hej");
+			if(currentplayer == 1)
+			{
+				gd.CurrentPlayer = 2;
+				gm.UpdateCurrentPlayer(gd, out string message3);
+			}
+			else if(currentplayer == 2)
+			{
+				gd.CurrentPlayer = 1;
+				gm.UpdateCurrentPlayer(gd, out string message4);
+			}
+
 			return RedirectToAction("OthelloBoard");
 		}
 	}

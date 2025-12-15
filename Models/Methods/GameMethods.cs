@@ -25,13 +25,14 @@ namespace OthelloProject.Models
 
 			SqlConnection conn = Connect();
 
-			string sqlQuery = "INSERT INTO [Game] (User1ID, GameStatus, Board, GameName) VALUES (@User1ID, @GameStatus, @Board, @GameName)";
+			string sqlQuery = "INSERT INTO [Game] (User1ID, GameStatus, Board, GameName, CurrentPlayer) VALUES (@User1ID, @GameStatus, @Board, @GameName, @CurrentPlayer)";
 			SqlCommand cmd = new SqlCommand(sqlQuery, conn);
 
 			cmd.Parameters.AddWithValue("@User1ID", gd.User1ID);
 			cmd.Parameters.AddWithValue("@GameStatus", gd.GameStatus.ToString());
 			cmd.Parameters.AddWithValue("@Board", gd.Board.ToString());
 			cmd.Parameters.AddWithValue("@GameName", gd.GameName.ToString());
+			cmd.Parameters.AddWithValue("@CurrentPlayer", 1);
 
 			try
 			{
@@ -95,7 +96,7 @@ namespace OthelloProject.Models
 			{
 				conn.Close();
 			}
-		} 
+		}
 
 		public GameDetails GetGameByName(string gameName, out string message)
 		{
@@ -165,7 +166,7 @@ namespace OthelloProject.Models
 					});
 				}
 
-				if(allGames.Count == 0)
+				if (allGames.Count == 0)
 				{
 					message = "No games were found";
 					return null;
@@ -173,7 +174,7 @@ namespace OthelloProject.Models
 
 				return allGames;
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				message = ex.Message;
 				return null;
@@ -214,10 +215,85 @@ namespace OthelloProject.Models
 
 				return newBoard;
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				message = ex.Message;
 				return null;
+			}
+			finally
+			{
+				conn.Close();
+			}
+		}
+
+		public int GetCurrentPlayer(GameDetails gd, out string message)
+		{
+			message = "";
+
+			SqlConnection conn = Connect();
+
+			string sqlQuery = "SELECT [CurrentPlayer] FROM [Game] WHERE [GameID] = @GameID";
+			SqlCommand cmd = new SqlCommand(sqlQuery, conn);
+
+			cmd.Parameters.AddWithValue("@GameID", gd.GameID);
+			int currentPlayer = 0;
+
+			try
+			{
+				conn.Open();
+				SqlDataReader reader = cmd.ExecuteReader();
+
+				while (reader.Read())
+				{
+					currentPlayer = (int)reader["CurrentPlayer"];
+				}
+
+				if (currentPlayer == 0)
+				{
+					message = "An error occurred while retrieving current player";
+					return 0;
+				}
+
+				return currentPlayer;
+			}
+			catch (Exception ex)
+			{
+				message = ex.Message;
+				return 0;
+			}
+			finally
+			{
+				conn.Close();
+			}
+		}
+
+		public int UpdateCurrentPlayer(GameDetails gd, out string message)
+		{
+			message = "";
+
+			SqlConnection conn = Connect();
+
+			string sqlQuery = "UPDATE [Game] SET [CurrentPlayer] = @CurrentPlayer WHERE [GameID] = @GameID";
+			SqlCommand cmd = new SqlCommand(sqlQuery, conn);
+
+			cmd.Parameters.AddWithValue("@CurrentPlayer", gd.CurrentPlayer);
+			cmd.Parameters.AddWithValue("@GameID", gd.GameID);
+
+			try
+			{
+				conn.Open();
+				int rowsAffected = cmd.ExecuteNonQuery();
+				if (rowsAffected != 1)
+				{
+					message = "An error occurred while updating current player";
+					return 0;
+				}
+				return rowsAffected;
+			}
+			catch (Exception ex)
+			{
+				message = ex.Message;
+				return 0;
 			}
 			finally
 			{
@@ -347,14 +423,14 @@ namespace OthelloProject.Models
 
 				int rowsAffected = cmd.ExecuteNonQuery();
 
-				if(rowsAffected != 1)
+				if (rowsAffected != 1)
 				{
 					message = "An error occurred while updating board";
 					return 0;
 				}
 				return rowsAffected;
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				message = ex.Message;
 				return 0;

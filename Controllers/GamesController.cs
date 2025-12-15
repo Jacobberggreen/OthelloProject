@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using OthelloProject.Models;
 using OthelloProject.Models.Methods;
+using System;
+using System.Text;
 
 namespace OthelloProject
 {
@@ -164,6 +166,27 @@ namespace OthelloProject
 			}
 
 			return result;
+		}
+
+		private static string ConvertBoardArrayToString(int[,] board)
+		{
+			var newBoard = new StringBuilder(64);
+			for (int r = 0; r < 8; r++)
+			{
+				for (int c = 0; c < 8; c++)
+				{
+					char cell = board[r,c] switch
+					{
+						1 => 'B',
+						2 => 'W',
+						0 => 'E'
+					};
+
+					newBoard.Append(cell);
+				}
+			}
+
+			return newBoard.ToString();
 		}
 	}
 

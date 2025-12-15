@@ -34,7 +34,9 @@
                                 <button
                                     type="submit"
                                     name="position"
-                                    value="@index"
+									asp-controller="BoardController"
+									asp-action="BoardController"
+                                    value="@cell"
                                     class="othello-cell-button">
                                 </button>
                             }
@@ -53,8 +55,10 @@
                                 <!-- Fallback: treat unknown as empty -->
                                 <button
                                     type="submit"
+									asp-controller="BoardController"
+									asp-action="BoardController"
                                     name="position"
-                                    value="@index"
+                                    value="@cell"
                                     class="othello-cell-button">
                                 </button>
                             }

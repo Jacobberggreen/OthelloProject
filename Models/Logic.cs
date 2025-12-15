@@ -1,6 +1,3 @@
-using Microsoft.Data.SqlClient;
-using OthelloProject.Models.Methods;
-
 namespace OthelloProject.Models
 {
 	public class OthelloLogic
@@ -41,7 +38,7 @@ namespace OthelloProject.Models
 						flipCol += dirCol;
 					}
 
-					
+
 					return;
 				}
 

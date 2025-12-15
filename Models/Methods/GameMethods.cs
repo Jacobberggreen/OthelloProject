@@ -184,6 +184,7 @@ namespace OthelloProject.Models
 			}
 		}
 
+
 		public int UpdateUser2ID(GameDetails game, out string message)
 		{
 			message = "";

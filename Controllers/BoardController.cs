@@ -4,6 +4,8 @@ namespace OthelloProject
 {
 	public class BoardController : Controller
 	{
-		
+		public BoardController(int[,] board)
+		{
+		}
 	}
 }

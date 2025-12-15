@@ -44,6 +44,10 @@
     cursor: pointer;
 }
 
+.othello-cell-button:disabled { 
+	cursor: not-allowed; opacity: 0.4; 
+}
+
 .othello-cell > form{
 	width: 100%;
 	height: 100%;

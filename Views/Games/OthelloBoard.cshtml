@@ -30,7 +30,8 @@
 							<form method="post" asp-controller="Games" asp-action="makeMove">
 								<input type="hidden" name="row" value="@row" />
 								<input type="hidden" name="col" value="@col" />
-								<button type="submit" class="othello-cell-button"></button>
+								@Html.AntiForgeryToken()
+								<button type="submit" class="othello-cell-button" @(ViewBag.CanMove ? "" : "disabled")></button>
 							</form>
 						}
 						else if (cell == 2)

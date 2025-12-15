@@ -44,6 +44,11 @@
     cursor: pointer;
 }
 
+.othello-cell > form{
+	width: 100%;
+	height: 100%;
+}
+
 .othello-cell-button:hover {
     background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
 }

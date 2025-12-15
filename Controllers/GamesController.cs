@@ -141,5 +141,22 @@ namespace OthelloProject
 			HttpContext.Session.Remove("GameName");
 			return RedirectToAction("Games");
 		}
+
+		[HttpPost]
+		public IActionResult makeMove(int row, int col)
+		{
+			GameMethods gm = new GameMethods();
+			GameDetails gd = new GameDetails();
+			OthelloLogic gameLogic = new OthelloLogic();
+
+			string currentGame = HttpContext.Session.GetString("GameName") ?? "";
+			gd = gm.GetGameByName(currentGame, out string message1);
+
+			string currentBoard = gm.GetBoard(gd, out string message2);
+
+			Console.WriteLine("Row: " + row);
+			Console.WriteLine("hej");
+			return RedirectToAction("OthelloBoard");
+		}
 	}
 }

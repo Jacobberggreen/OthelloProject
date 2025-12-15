@@ -1,76 +1,56 @@
 @model int[,]
 @{
-    ViewData["Title"] = "Othello Board";
-
-    // 0 = empty, 1 = black, 2 = white
-
-    string player2Name = ViewBag.User2Name ?? "Waiting for Player 2";
+	ViewData["Title"] = "Othello Board";
+	string player2Name = ViewBag.User2Name ?? "Waiting for Player 2";
 }
 
 <div class="othello-form othello-board-card">
-    <div class="othello-wrapper board-wrapper">
-        <div class="board-players">
-            <p class="mb-0 othello-player-label">Player 1: @ViewBag.User1Name</p>
-            @{
-                var player2Css = ViewBag.User2Name == null ? "othello-player-label othello-player-waiting" : "othello-player-label";
-            }
-            <p class="mb-0 @player2Css">Player 2: @player2Name</p>
-        </div>
+	<div class="othello-wrapper board-wrapper">
+		<div class="board-players">
+			<p class="mb-0 othello-player-label">Player 1: @ViewBag.User1Name</p>
+			@{
+				var player2Css = ViewBag.User2Name == null ? "othello-player-label othello-player-waiting" :
+				"othello-player-label";
+			}
+			<p class="mb-0 @player2Css">Player 2: @player2Name</p>
+		</div>
 
-        <!-- Form posts which position the user clicked -->
-        <form method="post" class="othello-board-form d-flex justify-content-center">
-            <div class="othello-board">
-                @for (int row = 0; row < 8; row++)
-                {
-                    for (int col = 0; col < 8; col++)
-                    {
-                        var index = row * 8 + col;
-                        var cell = @Model[row, col];
+		<!-- Form posts which position the user clicked -->
+		<div class="othello-board">
+			@for (int row = 0; row < 8; row++)
+			{
+				for (int col = 0; col < 8; col++)
+				{
+					var index = row * 8 + col;
+					var cell = @Model[row, col];
 
-                        <div class="othello-cell">
-                            @if (cell == 0)
-                            {
-                                <!-- Empty cell = clickable button -->
-                                <button
-                                    type="submit"
-                                    name="position"
-									asp-controller="BoardController"
-									asp-action="BoardController"
-                                    asp-for-cell="@cell"
-                                    class="othello-cell-button">
-                                </button>
-                            }
-                            else if (cell == 2)
-                            {
-                                <!-- White piece -->
-                                <div class="othello-piece white"></div>
-                            }
-                            else if (cell == 1)
-                            {
-                                <!-- Black piece -->
-                                <div class="othello-piece black"></div>
-                            }
-                            else
-                            {
-                                <!-- Fallback: treat unknown as empty -->
-                                <button
-                                    type="submit"
-									asp-controller="BoardController"
-									asp-action="BoardController"
-                                    name="position"
-                                    asp-for-cell="@cell"
-                                    class="othello-cell-button">
-                                </button>
-                            }
-                        </div>
-                    }
-                }
-            </div>
-        </form>
-    </div>
+					<div class="othello-cell">
+						@if (cell == 0)
+						{
+							<form method="post" asp-controller="Games" asp-action="makeMove">
+								<input type="hidden" name="row" value="@row" />
+								<input type="hidden" name="col" value="@col" />
+								<button type="submit" class="othello-cell-button"></button>
+							</form>
+						}
+						else if (cell == 2)
+						{
+							<!-- White piece -->
+							<div class="othello-piece white"></div>
+						}
+						else if (cell == 1)
+						{
+							<!-- Black piece -->
+							<div class="othello-piece black"></div>
+						}
+					</div>
+				}
+			}
+		</div>
+	</div>
 </div>
 
 <form asp-controller="Games" asp-action="LeaveGame" method="post" class="othello-leave-form">
-    @Html.AntiForgeryToken()
-    <button type="submit" class="othello-leave-btn">Leave Game</button>
+	@Html.AntiForgeryToken()
+	<button type="submit" class="othello-leave-btn">Leave Game</button>
 </form>

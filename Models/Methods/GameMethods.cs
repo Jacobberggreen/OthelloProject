@@ -194,19 +194,19 @@ namespace OthelloProject.Models
 			SqlCommand cmd = new SqlCommand(sqlQuery, conn);
 
 			cmd.Parameters.AddWithValue("@GameID", gd.GameID);
-			string newBoard;
+			string newBoard = "";
 
 			try
 			{
 				conn.Open();
-				SqlDatareader = cmd.ExecuteReader();
+				SqlDataReader reader = cmd.ExecuteReader();
 
 				while (reader.Read())
 				{
 					newBoard = reader["Board"].ToString();
 				}
 
-				if (newBoard.IsNullOrEmpty())
+				if (newBoard == null)
 				{
 					message = "An error occurred while retrieving board";
 					return null;

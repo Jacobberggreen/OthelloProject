@@ -69,6 +69,7 @@ app.Use(async (context, next) =>
 	var path = context.Request.Path;
 	var allowedPath =
 		path.StartsWithSegments("/games/othelloboard", StringComparison.OrdinalIgnoreCase) ||
+		path.StartsWithSegments("/games/makemove", StringComparison.OrdinalIgnoreCase) ||
 		path.StartsWithSegments("/games/leavegame", StringComparison.OrdinalIgnoreCase) ||
 		path.StartsWithSegments("/css", StringComparison.OrdinalIgnoreCase) ||
 		path.StartsWithSegments("/js", StringComparison.OrdinalIgnoreCase) ||

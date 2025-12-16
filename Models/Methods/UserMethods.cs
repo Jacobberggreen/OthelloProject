@@ -1,6 +1,7 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.AspNetCore.Identity;
 using OthelloProject.Models.Methods;
+using Microsoft.Identity.Client;
 
 namespace OthelloProject.Models
 {
@@ -345,5 +346,41 @@ namespace OthelloProject.Models
 				conn.Close();
 			}
 		}
+
+		public int GetWinningStats(int userID, out int totalGames, out int gamesWon, out string message)
+			{
+				message = "";
+				totalGames = 0;
+				gamesWon = 0;
+
+				SqlConnection conn = Connect();
+
+				string sqlQuery = "SELECT COUNT(*) AS TotalGames, SUM(CASE WHEN (WinnerID = @UserID) THEN 1 ELSE 0 END) AS GamesWon FROM [Game] WHERE User1ID = @UserID OR User2ID = @UserID";
+				SqlCommand cmd = new SqlCommand(sqlQuery, conn);
+				cmd.Parameters.AddWithValue("@UserID", userID);
+
+				try
+				{
+					conn.Open();
+					SqlDataReader reader = cmd.ExecuteReader();
+
+					if (reader.Read())
+					{
+						totalGames = reader["TotalGames"] != DBNull.Value ? Convert.ToInt32(reader["TotalGames"]) : 0;
+						gamesWon = reader["GamesWon"] != DBNull.Value ? Convert.ToInt32(reader["GamesWon"]) : 0;
+					}
+
+					return 1; // Success
+				}
+				catch (Exception ex)
+				{
+					message = ex.Message;
+					return 0; // Failure
+				}
+				finally
+				{
+					conn.Close();
+				}
+			}
 	}
 }

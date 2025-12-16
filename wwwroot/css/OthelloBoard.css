@@ -62,6 +62,8 @@
     height: 70%;
     border-radius: 50%;
     box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+    position: relative;
+    overflow: hidden;
 }
 
 .othello-piece.white {
@@ -70,6 +72,28 @@
 
 .othello-piece.black {
     background: radial-gradient(circle at 30% 30%, #555555 0%, #111111 40%, #000000 100%);
+}
+
+.othello-piece.white::after,
+.othello-piece.black::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 72%;
+    opacity: 0.18;
+    pointer-events: none;
+}
+
+.othello-piece.black::after {
+    background-image: url("/images/skull.png");
+    opacity: 0.1;
+}
+
+.othello-piece.white::after {
+    background-image: url("/images/bone.png");
+    opacity: 0.1;
 }
 
 

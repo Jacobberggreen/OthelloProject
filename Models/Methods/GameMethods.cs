@@ -477,5 +477,56 @@ namespace OthelloProject.Models
 				conn.Close();
 			}
 		}
+
+		public List<RecentGame> GetRecentGamesForUser(int userId, int take, out string message)
+		{
+			message = "";
+			var recentGames = new List<RecentGame>();
+
+			using SqlConnection conn = Connect();
+
+			string sqlQuery = @"
+				SELECT TOP (@Take)
+					CASE 
+						WHEN g.User1ID = @UserId THEN u2.Username
+						WHEN g.User2ID = @UserId THEN u1.Username
+						ELSE NULL
+					END AS OpponentName,
+					CASE 
+						WHEN g.WinnerID IS NULL THEN 'In progress'
+						WHEN g.WinnerID = @UserId THEN 'Win'
+						ELSE 'Loss'
+					END AS Result
+				FROM [Game] g
+				LEFT JOIN [User] u1 ON g.User1ID = u1.UserID
+				LEFT JOIN [User] u2 ON g.User2ID = u2.UserID
+				WHERE g.User1ID = @UserId OR g.User2ID = @UserId
+				ORDER BY g.GameID DESC";
+
+			using SqlCommand cmd = new SqlCommand(sqlQuery, conn);
+			cmd.Parameters.AddWithValue("@UserId", userId);
+			cmd.Parameters.AddWithValue("@Take", take);
+
+			try
+			{
+				conn.Open();
+				using SqlDataReader reader = cmd.ExecuteReader();
+				while (reader.Read())
+				{
+					string opponent = reader["OpponentName"] != DBNull.Value ? reader["OpponentName"].ToString() : "Unknown";
+					string result = reader["Result"] != DBNull.Value ? reader["Result"].ToString() : "In progress";
+					recentGames.Add(new RecentGame
+					{
+						OpponentName = opponent,
+						Result = result
+					});
+				}
+			}
+			catch (Exception ex)
+			{
+				message = ex.Message;
+			}
+			return recentGames;
+		}
 	}
 }

@@ -281,6 +281,165 @@ footer {
     font-weight: 700;
 }
 
+/* User stats (UserPage) */
+.user-stats-title {
+    color: #f5f8f6;
+    letter-spacing: 0.02em;
+}
+
+.user-stats-subtitle {
+    color: #9fb1a5;
+}
+
+.user-stats-label {
+    color: #d5e7dd;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+.user-stats-value {
+    color: #2dcc85;
+    font-weight: 700;
+    font-size: 1.05rem;
+}
+
+.user-stats-value.muted {
+    color: #e7f6ef;
+}
+
+.user-stats-value.danger {
+    color: #f36b6b;
+}
+
+.user-stats-value.stat-pill-loss {
+    color: #ffffff;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(31, 38, 48, 0.92), rgba(24, 29, 38, 0.92));
+    border: 1px solid #2f3844;
+    box-shadow:
+        inset 1px 1px 2px rgba(0, 0, 0, 0.35),
+        inset -1px -1px 2px rgba(255, 255, 255, 0.05),
+        0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+.stat-row + .stat-row {
+    margin-top: 10px;
+}
+
+.stat-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #2f3844, #252c36);
+    border: 1px solid #3a444f;
+    box-shadow:
+        inset 1px 1px 2px rgba(0, 0, 0, 0.35),
+        inset -1px -1px 2px rgba(255, 255, 255, 0.05);
+    white-space: nowrap;
+}
+
+.stat-pill-win {
+    background: linear-gradient(135deg, #2dcc85, #169d64);
+    color: #0f2418;
+    border-color: #1ea368;
+}
+
+.stat-pill-loss {
+    background: linear-gradient(135deg, #f36b6b, #c54141);
+    color: #ffffff;
+    border-color: #d24c4c;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.85);
+}
+
+.progress.othello-progress {
+    height: 16px;
+    background: #1f2630;
+    border: 1px solid #3a444f;
+    border-radius: 10px;
+    box-shadow:
+        inset 1px 1px 2px rgba(0, 0, 0, 0.35),
+        inset -1px -1px 2px rgba(255, 255, 255, 0.05);
+}
+
+.progress.othello-progress .progress-bar {
+    background: linear-gradient(135deg, #2dcc85, #169d64);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.recent-card {
+    margin-top: 1.5rem;
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(31, 38, 48, 0.92), rgba(24, 29, 38, 0.92));
+    border: 1px solid #2f3844;
+    box-shadow:
+        inset 1px 1px 2px rgba(0, 0, 0, 0.35),
+        inset -1px -1px 2px rgba(255, 255, 255, 0.05),
+        0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+.recent-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.recent-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: #242c36;
+    border: 1px solid #333c47;
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.35), inset -1px -1px 2px rgba(255, 255, 255, 0.04);
+}
+
+.recent-opponent {
+    color: #e7f6ef;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+.recent-result {
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    min-width: 80px;
+    text-align: center;
+}
+
+.recent-win {
+    background: linear-gradient(135deg, #2dcc85, #169d64);
+    color: #0f2418;
+    border: 1px solid #1ea368;
+}
+
+.recent-loss {
+    background: linear-gradient(135deg, #f36b6b, #c54141);
+    color: #ffffff;
+    border: 1px solid #d24c4c;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+}
+
+.recent-progress {
+    background: linear-gradient(135deg, #3c4a5c, #2e3744);
+    color: #e7f6ef;
+    border: 1px solid #4a5666;
+}
+
 .othello-table tr:last-child td {
     border-bottom: none;
 }

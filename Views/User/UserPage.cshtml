@@ -1,0 +1,64 @@
+@{
+	var winRate = ViewBag.TotalGames > 0 ? (double)ViewBag.GamesWon / (double)ViewBag.TotalGames : (double?)null;
+	var pct = winRate.HasValue ? (int)(winRate.Value * 100) : 0;
+}
+
+@using OthelloProject.Models.Methods
+@{
+	var recentGames = ViewBag.RecentGames as IEnumerable<RecentGame>;
+}
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+	<div class="othello-form fra-border" style="max-width: 520px !important;">
+		<div class="mb-4 text-center">
+			<h2 class="mb-1 user-stats-title">@ViewBag.Username</h2>
+			<p class="mb-0 user-stats-subtitle">Match stats</p>
+		</div>
+
+		<div class="othello-form-group stat-row">
+			<span class="user-stats-label">Games played</span>
+			<span class="user-stats-value muted stat-pill">@ViewBag.TotalGames</span>
+		</div>
+		<div class="othello-form-group stat-row">
+			<span class="user-stats-label">Wins</span>
+			<span class="user-stats-value stat-pill stat-pill-win">@ViewBag.GamesWon</span>
+		</div>
+		<div class="othello-form-group stat-row">
+			<span class="user-stats-label">Losses</span>
+			<span class="user-stats-value stat-pill stat-pill-loss">@ViewBag.GamesLost</span>
+		</div>
+		<div class="othello-form-group">
+			<div class="d-flex justify-content-between align-items-center mb-2">
+				<span class="user-stats-label">Win rate</span>
+				<span class="user-stats-value muted">@(winRate.HasValue ? String.Format("{0:0.##}%", winRate.Value * 100) : "N/A")</span>
+			</div>
+			<div class="progress othello-progress">
+				<div class="progress-bar" role="progressbar" style="width:@pct%;">@pct%</div>
+			</div>
+		</div>
+
+		<div class="recent-card mt-4">
+			<div class="d-flex justify-content-between align-items-center mb-2">
+				<span class="user-stats-label">Recent games</span>
+			</div>
+			@if (recentGames != null && recentGames.Any())
+			{
+				<div class="recent-list">
+					@foreach (var g in recentGames)
+					{
+						<div class="recent-item">
+							<div class="recent-opponent">@g.OpponentName</div>
+								<div class="recent-result @(g.Result == "Win" ? "recent-win" : (g.Result == "Loss" ? "recent-loss" : "recent-progress"))">
+								@g.Result
+							</div>
+						</div>
+					}
+				</div>
+			}
+			else
+			{
+				<p class="text-muted mb-0">No recent games to show.</p>
+			}
+		</div>
+	</div>
+</div>

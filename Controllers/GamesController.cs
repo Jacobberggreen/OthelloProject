@@ -86,10 +86,52 @@ namespace OthelloProject
 
 			int currentPlayer = new GameMethods().GetCurrentPlayer(initiatedGame, out string msg3);
 			ViewBag.CurrentPlayer = currentPlayer;
+			List<(int row, int col)> validMoves = new OthelloLogic().GetValidMoves(initiatedGame, currentPlayer);
 
 			var cm = new ConverterMethods();
 			string boardString = initiatedGame.Board;
 			int[,] boardArray = cm.ConvertBoardStringToArray(boardString);
+
+			int player1Points = 0;
+			int player2Points = 0;
+
+			for (int row = 0; row <= 7; row++)
+			{
+				for (int col = 0; col <= 7; col++)
+				{
+					if (boardArray[row, col] == 1)
+					{
+						player2Points++;
+					}
+					else if (boardArray[row, col] == 2)
+					{
+						player1Points++;
+					}
+				}
+			}
+			
+			ViewBag.Player2Points = player2Points;
+			ViewBag.Player1Points = player1Points;
+
+			if (validMoves.IsNullOrEmpty())
+			{
+				if (player1Points > player2Points)
+				{
+					initiatedGame.WinnerID = initiatedGame.User1ID;
+					int success = new GameMethods().UpdateGameWinnerID(initiatedGame, out string message2);
+					Console.WriteLine("Winner is: " + user2Name.Username);
+				}
+				else if (player2Points > player1Points)
+				{
+					initiatedGame.WinnerID = initiatedGame.User2ID;
+					int success = new GameMethods().UpdateGameWinnerID(initiatedGame, out string messge3);
+					Console.WriteLine("Winner is: " + user1Name.Username);
+				}
+
+				return View(model: boardArray);
+			}
+
+
 
 			return View(model: boardArray);
 		}

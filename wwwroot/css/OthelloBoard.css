@@ -121,6 +121,17 @@
     margin: 0.5rem 0 0.5rem;
 }
 
+.board-players2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+	padding-left: 2rem;
+	padding-right: 2rem;
+    width: 100%;
+    margin: 0.5rem 0 0.5rem;
+}
+
 .othello-player-label {
     display: inline-flex;
     align-items: center;

@@ -2,10 +2,11 @@
 @{
 	ViewData["Title"] = "Othello Board";
 	string player2Name = ViewBag.User2Name ?? "Waiting for Player 2";
+	int player2points = ViewBag.Player2Points ?? "0";
+	int player1points = ViewBag.Player1Points ?? "0";
 	int playerTurn = Context.Session.GetInt32("CurrentPlayer") ?? 0;
 	bool isPlayer1Turn = ((int?)ViewBag.CurrentPlayer) == 1;
 	bool isPlayer2Turn = ((int?)ViewBag.CurrentPlayer) == 2;
-	bool isMyTurn = ((int?)ViewBag.CurrentPlayer ?? 0) == playerTurn && playerTurn != 0;
 }
 
 <div class="othello-form othello-board-card fra-border">
@@ -20,6 +21,10 @@
 			}
 			<p class="mb-0 @player1Class">Player 1: @ViewBag.User1Name</p>
 			<p class="mb-0 @player2Css">Player 2: @player2Name</p>
+		</div>
+		<div class="board-players2">
+			<p>Points: @player2points</p>
+			<p>Points: @player1points</p>
 		</div>
 
 		<!-- Form posts which position the user clicked -->

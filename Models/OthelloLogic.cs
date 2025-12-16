@@ -85,14 +85,14 @@ namespace OthelloProject.Models
 						return false;
 					}
 
-					if (dirRow == 1 && dirCol == 1 && flipped != 0)
+					if (dirRow == 1 && dirCol == 1 && flipped != 0) // Här måste vi lägga ut nya pjäsen
 					{
-						string currentBoard = new GameMethods().GetBoard(gd, out string message);
-						int[,] newBoard = new ConverterMethods().ConvertBoardStringToArray(currentBoard);
-						newBoard[row, col] = player;
-						string updatedBoard = new ConverterMethods().ConvertBoardArrayToString(newBoard);
-						gd.Board = updatedBoard;
-						int success = new GameMethods().UpdateBoard(gd, out string message2);
+						string currentBoard = new GameMethods().GetBoard(gd, out string message); // Hämta flippade brädet (minus pjäsen vi lägger ut) från databasen
+						int[,] newBoard = new ConverterMethods().ConvertBoardStringToArray(currentBoard); // Gör om den till en array
+						newBoard[row, col] = player; // Lägg in pjäsen i nya arrayen
+						string updatedBoard = new ConverterMethods().ConvertBoardArrayToString(newBoard); // Gör om den till en string
+						gd.Board = updatedBoard; // Uppdatera GameDetails med nya brädet
+						int success = new GameMethods().UpdateBoard(gd, out string message2); // Uppdatera brädet i databasen
 						
 						return true;
 					}

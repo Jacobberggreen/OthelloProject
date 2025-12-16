@@ -1,6 +1,13 @@
 @{
 	var winRate = ViewBag.TotalGames > 0 ? (double)ViewBag.GamesWon / (double)ViewBag.TotalGames : (double?)null;
 	var pct = winRate.HasValue ? (int)(winRate.Value * 100) : 0;
+	var wrClass = "wr-na";
+	if (winRate.HasValue)
+	{
+		if (pct <= 33) wrClass = "wr-bad";
+		else if (pct <= 66) wrClass = "wr-mid";
+		else wrClass = "wr-good";
+	}
 }
 
 @using OthelloProject.Models.Methods
@@ -33,7 +40,7 @@
 				<span class="user-stats-value muted">@(winRate.HasValue ? String.Format("{0:0.##}%", winRate.Value * 100) : "N/A")</span>
 			</div>
 			<div class="progress othello-progress">
-				<div class="progress-bar" role="progressbar" style="width:@pct%;">@pct%</div>
+				<div class="progress-bar winrate-bar @wrClass" role="progressbar" style="width:@pct%;">@pct%</div>
 			</div>
 		</div>
 

@@ -203,11 +203,13 @@ namespace OthelloProject.Controllers
 			{
 				ViewBag.Error = statsMsg;
 			}
- 
+
 			ViewBag.Username = user.Username;
 			ViewBag.TotalGames = totalGames;
 			ViewBag.GamesWon = gamesWon;
 			ViewBag.GamesLost = gamesLost;
+			ViewBag.NavWinRate = totalGames > 0 ? (double)gamesWon / totalGames : (double?)null;
+			ViewBag.NavShowWinRate = true;
 			ViewBag.RecentGames = gm.GetRecentGamesForUser(userId.Value, 5, out string recentMsg);
 			if (!string.IsNullOrEmpty(recentMsg))
 			{

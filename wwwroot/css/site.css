@@ -375,6 +375,28 @@ footer {
     font-weight: 700;
 }
 
+.progress.othello-progress .progress-bar.winrate-bar {
+    color: #0f141c;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.progress.othello-progress .progress-bar.winrate-bar.wr-bad {
+    background: linear-gradient(90deg, #5a0b0b 0%, #c61a1a 100%);
+}
+
+.progress.othello-progress .progress-bar.winrate-bar.wr-mid {
+    background: linear-gradient(90deg, #5a0b0b 0%, #c61a1a 50%, #f0731e 100%);
+}
+
+.progress.othello-progress .progress-bar.winrate-bar.wr-good {
+    background: linear-gradient(90deg, #5a0b0b 0%, #c61a1a 35%, #f0731e 70%, #169d64 90%, #2dcc85 100%);
+}
+
+.progress.othello-progress .progress-bar.winrate-bar.wr-na {
+    background: linear-gradient(90deg, #3d4148 0%, #606872 100%);
+    color: #dfe3e8;
+}
+
 .recent-card {
     margin-top: 1.5rem;
     padding: 14px 16px;
@@ -533,4 +555,55 @@ footer {
 .app-footer a:hover {
     color: #4f433a;
     text-decoration: underline;
+}
+
+.nav-winrate {
+    position: relative;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #2dcc85 0%, #169d64 70%, #0f8a52 100%);
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #0b1d13;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.35),
+        inset 1px 1px 2px rgba(255, 255, 255, 0.25),
+        inset -1px -1px 2px rgba(0, 0, 0, 0.25);
+    text-decoration: none;
+}
+
+.nav-winrate-value {
+    font-size: 0.9rem;
+    line-height: 1;
+}
+
+.nav-winrate-label {
+    font-size: 0.65rem;
+    line-height: 1;
+    opacity: 0.8;
+}
+
+.nav-winrate.wr-bad {
+    background: radial-gradient(circle at 30% 30%, #f36b6b 0%, #c94141 65%, #a31f1f 100%);
+    color: #2d0d0d;
+}
+
+.nav-winrate.wr-mid {
+    background: radial-gradient(circle at 30% 30%, #f7b733 0%, #f57c00 70%, #d95f02 100%);
+    color: #2b1a07;
+}
+
+.nav-winrate.wr-good {
+    background: radial-gradient(circle at 30% 30%, #2dcc85 0%, #169d64 70%, #0f8a52 100%);
+    color: #0b1d13;
+}
+
+.nav-winrate.wr-na {
+    background: radial-gradient(circle at 30% 30%, #c4c8d0 0%, #9fa6b1 70%, #7d8592 100%);
+    color: #0f141c;
 }

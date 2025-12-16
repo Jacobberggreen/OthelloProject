@@ -16,6 +16,16 @@
     var isLoggedIn = Context?.Session?.GetInt32("UserID") != null;
     var inGame = !string.IsNullOrEmpty(Context?.Session?.GetString("GameName"));
     var isBoardPage = Context?.Request?.Path.StartsWithSegments("/games/othelloboard", StringComparison.OrdinalIgnoreCase) == true;
+    double? navWinRate = ViewBag.NavWinRate as double?;
+    var navWinRatePct = navWinRate.HasValue ? (int)(navWinRate.Value * 100) : (int?)null;
+    bool showWinRate = ViewBag.NavShowWinRate ?? true;
+    string navWrClass = "wr-na";
+    if (navWinRatePct.HasValue)
+    {
+        if (navWinRatePct <= 33) navWrClass = "wr-bad";
+        else if (navWinRatePct <= 66) navWrClass = "wr-mid";
+        else navWrClass = "wr-good";
+    }
 }
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light app-navbar mb-3">
@@ -35,10 +45,17 @@
                             <li class="nav-item">
                                 <a class="nav-link othello-nav-link" asp-area="" asp-controller="User" asp-action="UserPage">Stats</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link othello-nav-link" asp-area="" asp-controller="User" asp-action="Profile">Profile</a>
-                            </li>
                         </ul>
+                        <div class="d-flex align-items-center gap-0 ms-auto">
+                            <a class="nav-link othello-nav-link" asp-area="" asp-controller="User" asp-action="Profile">Profile</a>
+                            @if (showWinRate)
+                            {
+                                <div class="nav-winrate @navWrClass">
+                                    <span class="nav-winrate-value">@(navWinRatePct.HasValue ? navWinRatePct + "%" : "NA")</span>
+                                    <span class="nav-winrate-label">WR</span>
+                                </div>
+                            }
+                        </div>
                     }
                 </div>
             </div>

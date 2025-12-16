@@ -30,14 +30,15 @@ namespace OthelloProject.Models
 
 				if (board[nextRowInDir, nextColInDir] == player)
 				{
-					int flipRow = row;
-					int flipCol = col;
+					int flipRow = row + dirRow;
+					int flipCol = col + dirCol;
 
 					while (board[flipRow, flipCol] != player)
 					{
 						board[flipRow, flipCol] = player;
 						flipRow += dirRow;
 						flipCol += dirCol;
+						Console.WriteLine("WALLAH");
 					}
 
 					string newBoard = new ConverterMethods().ConvertBoardArrayToString(board);
@@ -49,7 +50,7 @@ namespace OthelloProject.Models
 						return -1;
 
 					}
-
+					Console.WriteLine("VI KOM HIT");
 					return 1;
 				}
 
@@ -79,20 +80,28 @@ namespace OthelloProject.Models
 
 					flipped += flipIfValid(board, row, col, dirRow, dirCol, player, gd);
 
-					if (dirRow == 1 && dirCol == 1 && flipped != 0)
-					{
-						return true;
-					}
-
 					if (flipped == -1)
 					{
 						return false;
 					}
 
+					if (dirRow == 1 && dirCol == 1 && flipped != 0)
+					{
+						string currentBoard = new GameMethods().GetBoard(gd, out string message);
+						int[,] newBoard = new ConverterMethods().ConvertBoardStringToArray(currentBoard);
+						newBoard[row, col] = player;
+						string updatedBoard = new ConverterMethods().ConvertBoardArrayToString(newBoard);
+						gd.Board = updatedBoard;
+						int success = new GameMethods().UpdateBoard(gd, out string message2);
+						
+						return true;
+					}
+
 				}
 			}
-			
+
 			return false;
+
 		}
 	}
 }

@@ -162,15 +162,12 @@ namespace OthelloProject
 
 			bool success = gameLogic.BoardState(row, col, currentplayer, newBoard, gd);
 
-			if(success == false){
-				
-				Console.WriteLine("Fuck you!!");
-				
+			if (success == false)
+			{
 				return RedirectToAction("OthelloBoard");
-			}else if (success == true){
-				
-				Console.WriteLine("Hell yeah!!!");
-
+			}
+			else if (success == true)
+			{
 				if (currentplayer == 1)
 				{
 					gd.CurrentPlayer = 2;
@@ -183,9 +180,6 @@ namespace OthelloProject
 				}
 
 			}
-
-
-			
 
 			return RedirectToAction("OthelloBoard");
 		}

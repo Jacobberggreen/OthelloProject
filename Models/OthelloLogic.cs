@@ -23,39 +23,34 @@ namespace OthelloProject.Models
 
 			while (isInsideBoard(nextRowInDir, nextColInDir))
 			{
-				if(board[nextRowInDir,nextColInDir] == 0)
+				if (board[nextRowInDir, nextColInDir] == 0)
 				{
 					return 0;
 				}
 
-				if(board[nextRowInDir, nextColInDir] == player)
+				if (board[nextRowInDir, nextColInDir] == player)
 				{
-					int flipRow = row + dirRow;
-					int flipCol = col + dirCol;
-
-					
+					int flipRow = row;
+					int flipCol = col;
 
 					while (board[flipRow, flipCol] != player)
 					{
-						Console.WriteLine("flipped");
 						board[flipRow, flipCol] = player;
 						flipRow += dirRow;
 						flipCol += dirCol;
-						
 					}
 
-					
 					string newBoard = new ConverterMethods().ConvertBoardArrayToString(board);
 					gd.Board = newBoard;
 					int success = new GameMethods().UpdateBoard(gd, out string message);
 
-					if(success != 1)
+					if (success != 1)
 					{
 						return -1;
 
 					}
 
-					return 0;	
+					return 1;
 				}
 
 				nextRowInDir += dirRow;
@@ -67,23 +62,24 @@ namespace OthelloProject.Models
 
 		public bool BoardState(int row, int col, int player, int[,] board, GameDetails gd)
 		{
-			if(!isInsideBoard(row, col) || board[row, col] != 0)
+			if (!isInsideBoard(row, col) || board[row, col] != 0)
 			{
 				return false;
 			}
 
-			for(int dirRow = -1; dirRow <= 1; dirRow++)
+			int flipped = 0;
+			for (int dirRow = -1; dirRow <= 1; dirRow++)
 			{
-				for(int dirCol = -1; dirCol <= 1; dirCol++)
+				for (int dirCol = -1; dirCol <= 1; dirCol++)
 				{
-					if(dirRow == 0 && dirCol == 0) // detta är ingen riktning
+					if (dirRow == 0 && dirCol == 0) // detta är ingen riktning
 					{
 						continue;
 					}
 
-					int flipped = flipIfValid(board, row, col, dirRow, dirCol, player, gd);
+					flipped += flipIfValid(board, row, col, dirRow, dirCol, player, gd);
 
-					if (dirRow == 1 && dirCol == 1)
+					if (dirRow == 1 && dirCol == 1 && flipped != 0)
 					{
 						return true;
 					}
@@ -95,9 +91,8 @@ namespace OthelloProject.Models
 
 				}
 			}
-
+			
 			return false;
 		}
-
 	}
 }

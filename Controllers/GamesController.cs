@@ -145,8 +145,6 @@ namespace OthelloProject
 				return View(model: boardArray);
 			}
 
-
-
 			return View(model: boardArray);
 		}
 
@@ -169,7 +167,6 @@ namespace OthelloProject
 			{
 				return View();
 			}
-
 		}
 
 		public IActionResult GameList(bool sorted)
@@ -183,7 +180,6 @@ namespace OthelloProject
 			}
 
 			return PartialView("GameList", availableGames);
-
 		}
 
 		[HttpPost]

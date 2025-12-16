@@ -85,10 +85,7 @@ namespace OthelloProject
 			}
 
 			int currentPlayer = new GameMethods().GetCurrentPlayer(initiatedGame, out string msg3);
-			if (currentPlayer == HttpContext.Session.GetInt32("CurrentPlayer"))
-			{
-				ViewBag.CurrentPlayer = currentPlayer;
-			}
+			ViewBag.CurrentPlayer = currentPlayer;
 
 			var cm = new ConverterMethods();
 			string boardString = initiatedGame.Board;

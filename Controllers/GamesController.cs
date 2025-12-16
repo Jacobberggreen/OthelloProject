@@ -59,7 +59,7 @@ namespace OthelloProject
 				if (result == 1)
 				{
 					HttpContext.Session.SetString("GameName", newGame.GameName);
-					HttpContext.Session.SetInt32("CurrentPlayer");
+					HttpContext.Session.SetInt32("CurrentPlayer", 1);
 					return RedirectToAction("OthelloBoard");
 				}
 				else
@@ -160,16 +160,32 @@ namespace OthelloProject
 			string currentBoard = gm.GetBoard(gd, out string message2);
 			int[,] newBoard = new ConverterMethods().ConvertBoardStringToArray(currentBoard);
 
-			if (currentplayer == 1)
-			{
-				gd.CurrentPlayer = 2;
-				gm.UpdateCurrentPlayer(gd, out string message3);
+			bool success = gameLogic.BoardState(row, col, currentplayer, newBoard, gd);
+
+			if(success == false){
+				
+				Console.WriteLine("Fuck you!!");
+				
+				return RedirectToAction("OthelloBoard");
+			}else if (success == true){
+				
+				Console.WriteLine("Hell yeah!!!");
+
+				if (currentplayer == 1)
+				{
+					gd.CurrentPlayer = 2;
+					gm.UpdateCurrentPlayer(gd, out string message3);
+				}
+				else if (currentplayer == 2)
+				{
+					gd.CurrentPlayer = 1;
+					gm.UpdateCurrentPlayer(gd, out string message4);
+				}
+
 			}
-			else if (currentplayer == 2)
-			{
-				gd.CurrentPlayer = 1;
-				gm.UpdateCurrentPlayer(gd, out string message4);
-			}
+
+
+			
 
 			return RedirectToAction("OthelloBoard");
 		}

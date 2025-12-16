@@ -3,19 +3,24 @@
 	ViewData["Title"] = "Othello Board";
 	string player2Name = ViewBag.User2Name ?? "Waiting for Player 2";
 	int playerTurn = Context.Session.GetInt32("CurrentPlayer") ?? 0;
+	bool isPlayer1Turn = ((int?)ViewBag.CurrentPlayer) == 1;
+	bool isPlayer2Turn = ((int?)ViewBag.CurrentPlayer) == 2;
+	bool isMyTurn = ((int?)ViewBag.CurrentPlayer ?? 0) == playerTurn && playerTurn != 0;
 }
 
-<div class="othello-form othello-board-card">
+<div class="othello-form othello-board-card fra-border">
 	<div class="othello-wrapper board-wrapper">
 		<div class="board-players">
-			<p class="mb-0 othello-player-label">Player 1: @ViewBag.User1Name</p>
 			@{
-				var player2Css = ViewBag.User2Name == null ? "othello-player-label othello-player-waiting" :
-				"othello-player-label";
+				var player1Class = $"othello-player-label othello-player1 {(isPlayer1Turn ? "player-box-active" : "")}";
+				var player2Base = ViewBag.User2Name == null
+					? "othello-player-label othello-player-waiting othello-player2"
+					: "othello-player-label othello-player2";
+				var player2Css = $"{player2Base} {(isPlayer2Turn ? "player-box-active" : "")}";
 			}
+			<p class="mb-0 @player1Class">Player 1: @ViewBag.User1Name</p>
 			<p class="mb-0 @player2Css">Player 2: @player2Name</p>
 		</div>
-		<p>Currentplayer: @ViewBag.CurrentPlayer</p>
 
 		<!-- Form posts which position the user clicked -->
 		<div class="othello-board">

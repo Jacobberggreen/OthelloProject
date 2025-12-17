@@ -124,7 +124,6 @@ namespace OthelloProject
 			{
 				UserDetails ud = new UserMethods().GetUserInfoByID(initiatedGame.WinnerID, out string msg3);
 				string winnerName = ud.Username;
-				GameDetails gd = new GameMethods().GetGameByName(gameName, out string msg5);
 				bool leftUser = true;
 				ViewBag.Winner = winnerName;
 				ViewBag.leftUser = leftUser;

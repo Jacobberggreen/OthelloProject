@@ -129,9 +129,15 @@ namespace OthelloProject
 					}
 				}
 			}
-			
+
 			HttpContext.Session.SetInt32("Player2Points", player2Points);
 			HttpContext.Session.SetInt32("Player1Points", player1Points);
+
+			if (initiatedGame.WinnerID != null)
+			{
+				HttpContext.Session.SetInt32("leftPlayer", initiatedGame.WinnerID ?? 0);
+				return PartialView("OthelloGameBoard", boardArray);
+			}
 
 			if (validMoves.IsNullOrEmpty())
 			{
@@ -155,6 +161,7 @@ namespace OthelloProject
 				}
 				return PartialView("OthelloGameBoard", boardArray);
 			}
+
 
 
 			return PartialView("OthelloGameBoard", boardArray);

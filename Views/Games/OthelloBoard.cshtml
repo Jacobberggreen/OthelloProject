@@ -5,11 +5,6 @@
 	@await Html.PartialAsync(partialViewName: "OthelloGameBoard", Model)
 </div>
 
-<form asp-controller="Games" asp-action="LeaveGame" method="post" class="othello-leave-form">
-	@Html.AntiForgeryToken()
-	<button type="submit" class="othello-leave-btn">Leave Game</button>
-</form>
-
 @section Scripts{
 	<script src="~/js/othelloGameBoard.js"></script>
 }

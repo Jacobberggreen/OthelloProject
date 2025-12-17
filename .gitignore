@@ -1,8 +1,8 @@
-# Ignore json files
-*.json
-
 # Ignore obj
 obj/
 
 # Ignore bin
 bin/
+
+#ignor json
+.json

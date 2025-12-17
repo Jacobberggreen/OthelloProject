@@ -41,6 +41,7 @@ namespace OthelloProject
 		{
 			Console.WriteLine("hej");
 			HttpContext.Session.Remove("GameName");
+			HttpContext.Session.Remove("leftPlayer");
 			return RedirectToAction("Games", "Games");
 		}
 

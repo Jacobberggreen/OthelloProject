@@ -94,25 +94,13 @@ namespace OthelloProject
 			string gameName = HttpContext.Session.GetString("GameName") ?? "";
 			GameDetails initiatedGame = new GameMethods().GetGameByName(gameName, out string message);
 
-			string boardString = initiatedGame.Board;
-			int[,] boardArray = new ConverterMethods().ConvertBoardStringToArray(boardString);
-
-			return View(model: boardArray);
-		}
-
-		public IActionResult OthelloGameBoard()
-		{
-			string gameName = HttpContext.Session.GetString("GameName") ?? "";
-			GameDetails initiatedGame = new GameMethods().GetGameByName(gameName, out string message);
-
-			var user1Name = userMethods.GetUserInfoByID(initiatedGame.User1ID, out string msg1);
-			var user2Name = userMethods.GetUserInfoByID(initiatedGame.User2ID, out string msg2);
+			var user1Name = new UserMethods().GetUserInfoByID(initiatedGame.User1ID, out string msg1);
+			var user2Name = new UserMethods().GetUserInfoByID(initiatedGame.User2ID, out string msg2);
 			HttpContext.Session.SetString("User1Name", user1Name.Username);
-			HttpContext.Session.SetString("User2Name", user2Name.Username);
 
 			if (user2Name != null)
 			{
-				ViewBag.User2Name = user2Name.Username;
+				HttpContext.Session.SetString("User2Name", user2Name.Username);
 			}
 
 			int currentPlayer = new GameMethods().GetCurrentPlayer(initiatedGame, out string msg3);
@@ -152,7 +140,7 @@ namespace OthelloProject
 					initiatedGame.WinnerID = initiatedGame.User2ID;
 					initiatedGame.GameStatus = "Finished";
 					int successWinnerID = new GameMethods().UpdateGameWinnerID(initiatedGame, out string message2);
-					int successStatus = new GameMethods().UpdateGameStatus(initiatedGame.GameID, out string message3);
+					int successStatus = new GameMethods().UpdateGameStatus(initiatedGame, out string message3);
 					Console.WriteLine("Winner is: " + user2Name.Username);
 					HttpContext.Session.SetString("Winner", user2Name.Username);
 				}
@@ -161,7 +149,7 @@ namespace OthelloProject
 					initiatedGame.WinnerID = initiatedGame.User1ID;
 					initiatedGame.GameStatus = "Finished";
 					int successWinnerID = new GameMethods().UpdateGameWinnerID(initiatedGame, out string messge4);
-					int successStatus = new GameMethods().UpdateGameStatus(initiatedGame.GameID, out string message5);
+					int successStatus = new GameMethods().UpdateGameStatus(initiatedGame, out string message5);
 					Console.WriteLine("Winner is: " + user1Name.Username);
 					HttpContext.Session.SetString("Winner", user1Name.Username);
 				}

@@ -116,10 +116,14 @@
 		</form>
 	}
 
-	<form asp-controller="Games" asp-action="LeaveGame" method="post" class="othello-leave-form">
-		@Html.AntiForgeryToken()
-		<button type="submit" class="othello-leave-btn">Leave Game</button>
-	</form>
+	@if (!showEndActions)
+	{
+		<form asp-controller="Games" asp-action="LeaveGame" method="post" class="othello-leave-form">
+			@Html.AntiForgeryToken()
+			<button type="submit" class="othello-leave-btn">Leave Game</button>
+		</form>
+	}
+
 
 
 </div>

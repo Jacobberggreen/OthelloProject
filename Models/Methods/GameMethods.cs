@@ -5,7 +5,7 @@ namespace OthelloProject.Models
 {
 	public class GameMethods
 	{
-		public GameMethods() { }
+		public GameMethods() { } // För att kunna köra new GameMethods()
 
 		public IConfigurationRoot GetConnection() // Metod för att hämta koppling till databasen
 		{
@@ -13,12 +13,17 @@ namespace OthelloProject.Models
 			return builder;
 		}
 
-		public SqlConnection Connect() // Hjälpfuntion
+		public SqlConnection Connect() // Hjälpfunktion för att undvika lång sträng i varje metod
 		{
 			SqlConnection dbConnection = new SqlConnection(GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
 			return dbConnection;
 		}
 
+
+		/*	Namn: InsertGame
+			Tar in GameDetails, hämtar all info från den och sätter in det i databasen.
+			Returnerrar 1 om allt gått vägen och annars 0.
+		*/
 		public int InsertGame(GameDetails gd, out string message)
 		{
 			message = "";
@@ -28,11 +33,11 @@ namespace OthelloProject.Models
 			string sqlQuery = "INSERT INTO [Game] (User1ID, GameStatus, Board, GameName, CurrentPlayer) VALUES (@User1ID, @GameStatus, @Board, @GameName, @CurrentPlayer)";
 			SqlCommand cmd = new SqlCommand(sqlQuery, conn);
 
-			cmd.Parameters.AddWithValue("@User1ID", gd.User1ID);
+			cmd.Parameters.AddWithValue("@User1ID", gd.User1ID); // UserID till spelaren som skapat ett game
 			cmd.Parameters.AddWithValue("@GameStatus", gd.GameStatus.ToString());
 			cmd.Parameters.AddWithValue("@Board", gd.Board.ToString());
 			cmd.Parameters.AddWithValue("@GameName", gd.GameName.ToString());
-			cmd.Parameters.AddWithValue("@CurrentPlayer", 1);
+			cmd.Parameters.AddWithValue("@CurrentPlayer", 1); // Spelare som skapar spelet kommer vara representeras av 1 i CurrentPlayer.
 
 			try
 			{
@@ -56,6 +61,10 @@ namespace OthelloProject.Models
 			}
 		}
 
+		/* 	Namn: GetGameInfoByID
+			Tar in ett GameID, hämtar allt relaterat till den spelet från databasen
+			och returnerar deti en GameDetails.
+		*/
 		public GameDetails GetGameInfoByID(int? selectedGameID, out string message)
 		{
 			message = "";
@@ -98,6 +107,10 @@ namespace OthelloProject.Models
 			}
 		}
 
+		/*	Namn: GetGameByName
+			Tar in en sträng som är namnet på spelet. Letar sedan efter det spelet
+			i databasen och returnerar allt relaterat till det spelet i en GameDetails.
+		*/
 		public GameDetails GetGameByName(string gameName, out string message)
 		{
 			message = "";
@@ -144,6 +157,10 @@ namespace OthelloProject.Models
 			}
 		}
 
+		/*	Namn: GetAllGames
+			Tar inte in några inparametrar utan hämtar bara alla spel
+			från databasen och returnerar dem i en lista.
+		*/
 		public List<GameDetails> GetAllGames(out string message)
 		{
 			message = "";
@@ -190,6 +207,11 @@ namespace OthelloProject.Models
 			}
 		}
 
+		/*	Namn: GetBoard
+			Tar in en GameDetails som inneparameter. Tar fram spelbrädet till
+			ett specifikt GameID från inparametern och returnerar brädet som
+			en sträng.
+		*/
 		public string GetBoard(GameDetails gd, out string message)
 		{
 			message = "";
@@ -231,6 +253,11 @@ namespace OthelloProject.Models
 			}
 		}
 
+		/*	Namn: GetCurrentPlayer
+			Tar in en GameDetails och hämtar spelaren vars tur det är (1 eller 2)
+			från ett specifikt game med hjälp av GameID. Returnerar 1 eller 2 beroende
+			på vilken spelares tur det är.
+		*/
 		public int GetCurrentPlayer(GameDetails gd, out string message)
 		{
 			message = "";
@@ -272,6 +299,11 @@ namespace OthelloProject.Models
 			}
 		}
 
+		/*	Namn: UpdateCurrentPlayer
+			Tar in en GameDetails. Uppdaterar vilken spelare som har den aktiva
+			turen i ett specifikt game. Returnerar 1 om allt gått vägen och
+			annars 0.
+		*/
 		public int UpdateCurrentPlayer(GameDetails gd, out string message)
 		{
 			message = "";
@@ -306,6 +338,11 @@ namespace OthelloProject.Models
 			}
 		}
 
+		/*	Namn: UpdateUser2ID
+			Tar in en GameDetails och uppdaterar User2ID i databasen.
+			Detta blir användaren som joinar ett spel. User1ID tillhör
+			den som skapar spelet. 
+		*/
 		public int UpdateUser2ID(GameDetails game, out string message)
 		{
 			message = "";
@@ -340,6 +377,10 @@ namespace OthelloProject.Models
 			}
 		}
 
+		/*	Namn: UpdateGameStatus
+			Tar in en GameDetails och uppdaterar vilket status en match är i.
+			Det kan antingen vara Waiting, Playing eller Finished.
+		*/
 		public int UpdateGameStatus(GameDetails gd, out string message)
 		{
 			message = "";
@@ -374,6 +415,10 @@ namespace OthelloProject.Models
 			}
 		}
 
+		/*	Namn: UpdateGameWinnerID
+			Tar in en GameDetails och uppdaterar vilken spelare (med UserID) som vunnit
+			ett game. 
+		*/
 		public int UpdateGameWinnerID(GameDetails selectedGame, out string message)
 		{
 			message = "";
@@ -408,6 +453,11 @@ namespace OthelloProject.Models
 			}
 		}
 
+		/*	Namn: UpdateBoard
+			Tar in en GameDetails som innehåller det uppdaterade brädet
+			efter att en spelare lagt en ny pjäs. Funktionen uppdaterar
+			då databasen med det nya brädet. 
+		*/
 		public int UpdateBoard(GameDetails gd, out string message)
 		{
 			message = "";
@@ -446,6 +496,11 @@ namespace OthelloProject.Models
 
 		}
 
+		/*	Namn: DeleteGameByName
+			Tar in en sträng som är namnet på ett game och tar sedan bort
+			raden med det gamet från databasen. Returnerar 1 om allt gått
+			vägen och annars 0.
+		*/
 		public int DeleteGameByName(string gameName, out string message)
 		{
 			message = "";

@@ -230,7 +230,7 @@ namespace OthelloProject.Models
 			SqlCommand cmd = new SqlCommand(sqlQuery, conn);
 
 			cmd.Parameters.AddWithValue("@Username", selectedUser.Username);
-			cmd.Parameters.AddWithValue("@UserID", selectedUser.User1ID);
+			cmd.Parameters.AddWithValue("@UserID", selectedUser.UserID);
 
 			try
 			{
@@ -312,7 +312,7 @@ namespace OthelloProject.Models
 			SqlCommand cmd = new SqlCommand(sqlQuery, conn);
 
 			cmd.Parameters.AddWithValue("@Email", selectedUser.Email);
-			cmd.Parameters.AddWithValue("@UserID", selectedUser.User1ID);
+			cmd.Parameters.AddWithValue("@UserID", selectedUser.UserID);
 
 			try
 			{

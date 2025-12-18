@@ -4,7 +4,6 @@
 	int? player1points = Context.Session.GetInt32("Player1Points");
 	int playerTurn = Context.Session.GetInt32("PlayerNumber") ?? 0;
 	int? currentPlayer = Context.Session.GetInt32("CurrentPlayer");
-	int? leftPlayer = Context.Session.GetInt32("leftPlayer");
 	bool isPlayer1Turn = false;
 	bool isPlayer2Turn = false;
 	string? winner = Context.Session.GetString("Winner");
@@ -13,7 +12,7 @@
 	bool hasWinner = !string.IsNullOrEmpty(winner);
 	bool isWinnerPlayer1 = hasWinner && string.Equals(winner, User1Name, StringComparison.OrdinalIgnoreCase);
 	bool isWinnerPlayer2 = hasWinner && string.Equals(winner, User2Name, StringComparison.OrdinalIgnoreCase);
-	bool showEndActions = hasWinner || leftPlayer != null;
+	bool showEndActions = hasWinner;
 	@if (currentPlayer == 1)
 	{
 		isPlayer1Turn = true;
@@ -24,13 +23,6 @@
 		isPlayer1Turn = false;
 		isPlayer2Turn = true;
 	}
-}
-
-@if (leftPlayer != null)
-{
-	<div class="leftTheGame-container">
-		<h2>Opponent has left the game</h2>
-	</div>
 }
 
 

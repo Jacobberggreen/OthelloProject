@@ -8,6 +8,11 @@ using OthelloProject.ViewModels;
 using System.Net;
 using System.Net.Mail;
 using Microsoft.Extensions.Configuration;
+using System.Security.Cryptography.X509Certificates;
+using System.Diagnostics.Contracts;
+using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
+using System.Diagnostics;
 
 
 namespace OthelloProject.Controllers
@@ -311,6 +316,25 @@ namespace OthelloProject.Controllers
 
 			TempData["ProfileMessage"] = "Profil uppdaterad.";
 			return RedirectToAction("Profile");
+		}
+
+		/*
+		  Metod för att radera en användare.
+		*/
+		public IActionResult DeleteUser()
+		{
+			int? userID = HttpContext.Session.GetInt32("UserID");
+
+			var um = new UserMethods();
+			int rows = um.DeleteUserById(userID.Value, out string msg);
+
+			if (rows != 1)
+			{
+				Console.WriteLine("Ingen användare raderades: " + userID);
+				return RedirectToAction("Profile");
+			}
+
+			return RedirectToAction("Login", "User");
 		}
 	}
 }

@@ -31,7 +31,7 @@
 <div class="othello-wrapper board-wrapper">
 	<div class="board-players">
 		@{
-			@* Build CSS classes for player cards based on turn and availability. *@
+			@* Build CSS classes for player cards based on turn and availability. *@ 
 			var player1Class = $"othello-player-label othello-player1 {(isPlayer1Turn ? "player-box-active" : "")}";
 			var player2Base = User2Name == null
 			? "othello-player-label othello-player-waiting othello-player2"

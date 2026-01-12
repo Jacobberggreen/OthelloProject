@@ -334,6 +334,8 @@ namespace OthelloProject.Controllers
 				return RedirectToAction("Profile");
 			}
 
+			HttpContext.Session.Clear();
+
 			return RedirectToAction("Login", "User");
 		}
 	}
